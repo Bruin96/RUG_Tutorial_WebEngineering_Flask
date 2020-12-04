@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <title>Web Engineering Flask Demo</title>
+	<meta charset="UTF-8">
+	<link rel = "stylesheet"
+		  type = "text/css"
+		  href = "{{ url_for('static', filename='styles/style.css') }}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" defer src="{{ url_for('static', filename='javascript/actions.js') }}"></script>
+</head>
+
+<body>
+    <h1>
+        Flask Demo Using the Github API
+    </h1>
+    
+    <p id="user_text"> Please fill in the user you want to query:</p>
+    
+    <form id="user_form">
+        <input id="user_input" type="text">
+    </form>
+    
+    <p id ="user_error" class="error_message">The indicated username could not be found!</p>
+    
+    <button id="user_button">
+        Submit
+    </button>
+    
+    <p>User query result:</p>
+    
+    <textarea id="user_result_form"  rows="8" cols="100" readonly>
+        
+    </textarea>
+    
+    <p id="repo_text">Please fill in the repository you want to query:</p>
+    
+    <form id="repo_form">
+        <input id="repo_input" type="text">
+    </form>
+    
+    <p id="repo_error" class="error_message">Dummy value (not visible at any point).</p>
+    
+    <button id="repo_button">
+        Submit
+    </button>
+    
+    <p>Repository query result:</p>
+    
+    <textarea id="repo_result_form"  rows="8" cols="100" readonly>
+        
+    </textarea>
+    
+    <p>Determine the number of repositories in the given repository:</p>
+    
+    <p id="count_error" class="error_message">Should be hidden by default, and this message never appears.</p>
+    
+    <button id="count_button">Count</button>
+    
+    <p>Number of repositories:</p>
+    
+    <form id="count_form">
+        <input id="count_input" type="text" readonly>
+    </form>
+    
+</body>
+
+</html>

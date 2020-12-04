@@ -1,0 +1,13 @@
+body {
+	background-color: azure;
+	color: black;
+	margin-top: 70px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.error_message {
+    visibility: hidden;
+}
