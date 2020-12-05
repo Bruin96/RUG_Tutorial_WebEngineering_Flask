@@ -12,12 +12,8 @@ def render_home():
     
 @app.route("/users/<user_id>", methods=["GET"])
 def get_user(user_id):
-    # Send request to Github API
     request_string = "https://api.github.com/users/" + str(user_id)
     result = requests.get(request_string)
-    print("Result is in.")
-    print(result.text)
-    print(result.status_code)
     
     return create_response(result)
 
@@ -25,39 +21,24 @@ def get_user(user_id):
 @app.route("/users/<user_id>/repos/<repo_name>", methods=["GET"])
 def get_repository(user_id, repo_name):
     request_string = "https://api.github.com/repos/" + str(user_id) + "/" + str(repo_name) # Default is 30 entries, but there may be more
-    print("request_string: ", request_string)
     result = requests.get(request_string)
-    print("Result is in.")
-    print(result.text)
-    print(result.status_code)
     
     return create_response(result)
     
 
 @app.route("/users/<user_id>/count-repos", methods=["POST"])    
 def count_repos(user_id):
-    print("Get started.")
     request_string = "https://api.github.com/users/" + str(user_id) + "/repos?per_page=100" # Default is 30 entries, but there may be more. Github sets the maximum at 100.
-    print("request_string: ", request_string)
     result = requests.get(request_string)
-    print(result.headers)
     
     num_repos = len(result.json())
-    while 'link' in result.headers: # Go to next result page
+    while 'link' in result.headers: # Go to next result page if num_repos > 100
         (has_next, next_link) = parse_link(result.headers['link'])
         if not has_next: # link is to previous page
             break;
         result = requests.get(next_link)
         num_repos = num_repos + len(result.json())
-        if not has_next: # link is to previous page
-            break;
-    
-    print("result:")
-    print(result.json())
-    
-    #num_repos = len(result.json())
-    print("num_repos = ", num_repos)
-    
+        
     response_data = {"number_of_repos": num_repos}
     
     if result.status_code == HTTPStatus.NOT_FOUND:
@@ -80,9 +61,7 @@ def create_response(request):
     return response
 
 
-def parse_link(link_string):
-    print(link_string)
-    
+def parse_link(link_string):    
     i = 1
     next_link = ""
     while link_string[i] != ">":
