@@ -53,7 +53,7 @@ The endpoints are defined in the file routes.py. Here another elegant aspect of 
 ```
 @app.route("/users/<user_id>/repos/<repo_name>", methods=["GET"])
 def get_repository(user_id, repo_name):
-    request_string = "https://api.github.com/repos/" + str(user_id) + "/" + str(repo_name) # Default is 30 entries, but there may be more
+    request_string = "https://api.github.com/repos/" + str(user_id) + "/" + str(repo_name)
     result = requests.get(request_string)
     
     return create_response(result)

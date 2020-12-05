@@ -20,7 +20,7 @@ def get_user(user_id):
 
 @app.route("/users/<user_id>/repos/<repo_name>", methods=["GET"])
 def get_repository(user_id, repo_name):
-    request_string = "https://api.github.com/repos/" + str(user_id) + "/" + str(repo_name) # Default is 30 entries, but there may be more
+    request_string = "https://api.github.com/repos/" + str(user_id) + "/" + str(repo_name)
     result = requests.get(request_string)
     
     return create_response(result)
@@ -34,7 +34,7 @@ def count_repos(user_id):
     num_repos = len(result.json())
     while 'link' in result.headers: # Go to next result page if num_repos > 100
         (has_next, next_link) = parse_link(result.headers['link'])
-        if not has_next: # link is to previous page
+        if not has_next: # link is to previous page, not to a next page
             break;
         result = requests.get(next_link)
         num_repos = num_repos + len(result.json())
