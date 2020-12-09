@@ -47,8 +47,30 @@ def count_repos(user_id):
         response = make_response(jsonify(response_data), HTTPStatus.OK)
         
     return response
+
+
+@app.route("users/<user_id>/get-n-repos-alphabetically", methods=["POST"])
+def get_n_repos(user_id):
+    data = request.get_json()
+    if not "num_repos" in data:
+        return make_response(jsonify({"message" : " Number of repositories was not specified."}), HTTPStatus.BAD_REQUEST)
+        
+    num_repos = int(data["num_repos"])
     
+    request_string = "https://api.github.com/users/" + str(user_id) + "/repos?per_page=100"
     
+    result = requests.get(request_string)
+    
+    repo_names = []
+    
+    for res in result.json():
+        repo_names.append(res["name"])
+        if len(repo_names) == num_repos:
+            break
+            
+    return make_response(jsonify({"repo_names": repo_names}), HTTPStatus.OK)
+    
+
     
 def create_response(request):
     response = ""
